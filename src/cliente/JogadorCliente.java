@@ -22,7 +22,7 @@ public class JogadorCliente {
     private Janela janela;
 
     public static void main(String[] args) {
-
+          System.out.println("Cliente!!!!!!!!!!!!!");
         new JogadorCliente();
 
     }
