@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class RemotoImpl extends java.rmi.server.UnicastRemoteObject implements Remoto {
 
     private Jogador ganhador;
+    private MetodoDB metodoDB;
 
     public RemotoImpl() throws java.rmi.RemoteException {
 
@@ -28,10 +29,12 @@ public class RemotoImpl extends java.rmi.server.UnicastRemoteObject implements R
     public String jogar(String nome, int palitos, int aposta) throws java.rmi.RemoteException {
 
         try {
+             metodoDB = new MetodoDB();
+          
 
             System.out.println("Aguarde...");
 
-            MetodoDB metodoDB = new MetodoDB();
+          
 
             Jogador jogador = new Jogador(nome, palitos, aposta);
             metodoDB.insert(jogador);
@@ -47,6 +50,7 @@ public class RemotoImpl extends java.rmi.server.UnicastRemoteObject implements R
                     int somaPalitos = metodoDB.contaPalitos();
 
                     ganhador = metodoDB.retornaGanhador(somaPalitos);
+                  
 
                     break;
                 }
@@ -58,6 +62,13 @@ public class RemotoImpl extends java.rmi.server.UnicastRemoteObject implements R
         }
 
         return ganhador.getNome();
+    }
+
+    
+    public void novo() {
+
+          metodoDB.finalizaJogada();
+        
     }
 
 }

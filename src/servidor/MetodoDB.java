@@ -97,6 +97,8 @@ public class MetodoDB {
     }
 
     public Jogador retornaGanhador(int soma) {
+        
+         Jogador jogador = new Jogador();
 
         try {
 
@@ -110,13 +112,16 @@ public class MetodoDB {
 
             if (rs.next()) {
 
-                Jogador jogador = new Jogador();
+               
 
                 jogador.setId(rs.getInt(1));
                 jogador.setNome(rs.getString(2));
 
                 return jogador;
 
+            }else{
+                jogador.setNome("Ninguém");
+                return jogador;
             }
 
         } catch (SQLException ex) {

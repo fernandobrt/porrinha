@@ -6,38 +6,40 @@
 package cliente;
 
 import interfaces.Remoto;
+import java.awt.Color;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-
+import javax.swing.WindowConstants;
 
 public class JogadorCliente {
 
+    private Remoto remoto;
+    private Janela janela;
+
     public static void main(String[] args) {
+
+        new JogadorCliente();
+
+    }
+
+    public JogadorCliente() {
 
         String a, resp = "";
 
         try {
 
-            Remoto remoto = (Remoto) Naming.lookup("//localhost:2020/");
+            janela = new Janela(this);
+            janela.setSize(400, 300);
+            janela.ativar(false);
+            janela.setVisible(true);
+            janela.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-            String nome = JOptionPane.showInputDialog("Seu Nome");
-
-            String[] options = {"0 Palito", "1 Palito", "2 Palitos", "3 Palitos"};
-
-            int palitos = JOptionPane.showOptionDialog(null, "Palitos?", "qt palitos", JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null, options, false);
-
-            int aposta = Integer.parseInt(JOptionPane.showInputDialog("Aposta?"));
-
-            String r = remoto.jogar(nome, palitos, aposta);
-            
-            
-            
-
-            JOptionPane.showMessageDialog(null, r);
+            remoto = (Remoto) Naming.lookup("//localhost:2020/criptoService");
 
         } catch (MalformedURLException murle) {
 
@@ -71,6 +73,32 @@ public class JogadorCliente {
             System.out.println(arr);
 
         }//fim catch
+    }
+    
+    public void novaPartida(){
+        try {
+            remoto.novo();
+            janela.ativar(true);
+            janela.limpar();
+        } catch (RemoteException ex) {
+           System.out.println(ex);
+        }
+    }
 
+    public void apostar() throws RemoteException {
+
+        String nome = janela.getNome();
+        int aposta = janela.getAposta();
+        int palitos = janela.getPalitos();
+
+        System.out.println(nome);
+        System.out.println(aposta);
+        System.out.println(aposta);
+
+        String r = remoto.jogar(nome, palitos, aposta);
+
+        JOptionPane.showMessageDialog(janela, r + " Ganhou!!!!");
+        
+        janela.ativar(false);
     }
 }

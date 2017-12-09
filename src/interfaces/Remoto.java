@@ -12,7 +12,7 @@ package interfaces;
 public interface Remoto extends java.rmi.Remote {
 
     public String jogar(String nome,int palitos,int aposta) throws java.rmi.RemoteException;
-
+    public void novo() throws java.rmi.RemoteException;
     
 
 }
