@@ -21,7 +21,7 @@ public class RemotoImpl extends java.rmi.server.UnicastRemoteObject implements R
     public RemotoImpl() throws java.rmi.RemoteException {
 
         super();
-
+         metodoDB = new MetodoDB();
         ganhador = null;
 
     }
@@ -29,7 +29,7 @@ public class RemotoImpl extends java.rmi.server.UnicastRemoteObject implements R
     public String jogar(String nome, int palitos, int aposta) throws java.rmi.RemoteException {
 
         try {
-             metodoDB = new MetodoDB();
+            
           
 
             System.out.println("Aguarde...");
